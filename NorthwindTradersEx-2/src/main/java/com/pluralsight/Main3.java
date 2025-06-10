@@ -27,7 +27,9 @@ public class Main3 {
             while (execute){
                 System.out.println(" 1) - Display all Products");
                 System.out.println(" 2) - Display all Customers");
-                System.out.println(" 3) - Exit");
+                System.out.println(" 3) - Display all Categories");
+                System.out.println(" 4) - Display Product Based On CategoryID");
+                System.out.println(" 5) - Exit ");
                 System.out.println(" Enter Command: ");
                 response = scanner.nextInt();
                 scanner.nextLine();
@@ -65,7 +67,42 @@ public class Main3 {
                         System.out.println(" ");
                     }
                 }
-                if (response == 0){
+                if (response == 3){
+//                    get all Customers
+                    preparedStatement = connection.prepareStatement("select CategoryID, " +
+                            "CategoryName from categories");
+//                    execute query
+                    resultSet = preparedStatement.executeQuery();
+
+//                    display results
+                    while (resultSet.next()){
+                        System.out.println(" ");
+                        System.out.printf("%-10d %-30s%n",
+                                resultSet.getInt(1), // CustomerID
+                                resultSet.getString(2)
+                        );
+                        System.out.println(" ");
+                    }
+                }
+                if (response == 4){
+                            System.out.println("Enter CategoryID");
+                            String prompt = scanner.nextLine();
+//                                get all Customers
+                            preparedStatement = connection.prepareStatement("select ProductID, " +
+                                    "ProductName, " + "UnitPrice, " + "UnitsInStock from products where CategoryID = ? order by ProductID");
+                            // set the parameters for the prepared statement
+                            preparedStatement.setString(1, prompt);
+//                              execute query
+                            resultSet = preparedStatement.executeQuery();
+
+//                                display results
+                            while (resultSet.next()){
+                                System.out.println("-------------------------------------------------------------");
+                                System.out.printf("%-4d %-40s %7.2f %6d%n", resultSet.getInt(1), resultSet.getString(2), resultSet.getDouble(3), resultSet.getInt(4));
+                                System.out.println(" ");
+                            }
+                }
+                if (response == 5){
                     System.out.println("Exiting app.......");
                     execute = false;
                     break;
