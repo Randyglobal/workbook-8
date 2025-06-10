@@ -17,7 +17,7 @@ public class App {
         Statement statement = connection.createStatement();
 
         // define your query
-        String query = "SELECT ProductName FROM products ";
+        String query = "SELECT * FROM products ";
         System.out.println(query);
         // 2. Execute your query
         ResultSet results = statement.executeQuery(query);
